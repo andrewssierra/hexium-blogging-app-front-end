@@ -1,41 +1,55 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-// import { gql } from 'apollo-boost';
+import { gql } from 'apollo-boost';
 
-// const getUsers = gql`
-//     query {
-//         users {
-//             id
-//             name
-//         }
-//     }
-// `;
-
-// function App({ client }) {
-//     client.query({ query: getUsers }).then(response => {
-//         console.log(response);
-//     });
-//     return <div className="App">hello</div>;
-// }
+const login = gql`
+    mutation($data: LogInUserInput!) {
+        login(data: $data) {
+            token
+        }
+    }
+`;
 
 class Login extends React.Component {
-    handleSubmit = e => {
+    constructor(props) {
+        super(props);
+        this.state = { email: '', password: '' };
+    }
+    handleSubmit = async e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
+        console.log(this.state.email);
+        console.log(this.state.password);
+        const variables = {
+            data: { email: this.state.email, password: this.state.password }
+        };
+        let result;
+        try {
+            result = await this.props.client.mutate({
+                mutation: login,
+                variables
+            });
+        } catch (err) {
+            alert('Incorrect email/password');
+            console.log(err.message);
+        }
+        console.log(result);
     };
-
+    onEmailChange = e => {
+        this.setState({ email: e.target.value });
+    };
+    onPasswordChange = e => {
+        this.setState({ password: e.target.value });
+    };
     render() {
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <h1>Hello, </h1>
                 <Form.Item>
                     <Input
-                        prefix={<Icon className="username-icon" type="user" />}
-                        placeholder="Username"
+                        prefix={<Icon className="email-icon" type="user" />}
+                        placeholder="Email"
+                        onChange={this.onEmailChange}
+                        value={this.state.email}
                     />
                 </Form.Item>
                 <Form.Item>
@@ -48,6 +62,8 @@ class Login extends React.Component {
                         }
                         type="password"
                         placeholder="Password"
+                        value={this.state.password}
+                        onChange={this.onPasswordChange}
                     />
                 </Form.Item>
                 <Form.Item>
