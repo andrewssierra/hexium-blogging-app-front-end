@@ -1,0 +1,27 @@
+@import '~antd/dist/antd.css';
+
+.content {
+    background: white;
+}
+
+.layout {
+    background: white;
+}
+
+.login-form {
+    max-width: 300px;
+}
+.login-form-forgot {
+    float: right;
+}
+.login-form-button {
+    width: 100%;
+}
+
+.login-form {
+    margin: 171px auto;
+}
+
+.username-icon {
+    color: rgba(0, 0, 0, 0.25);
+}
