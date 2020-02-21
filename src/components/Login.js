@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { gql } from 'apollo-boost';
+import { Redirect } from 'react-router-dom';
 import NewUserForm from './NewUserForm';
 
 const login = gql`
@@ -14,7 +15,12 @@ const login = gql`
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { email: '', password: '', registerUser: undefined };
+        this.state = {
+            email: '',
+            password: '',
+            registerUser: undefined,
+            loggedIn: false
+        };
     }
     handleRegister = () => {
         this.setState({ registerUser: true });
@@ -24,8 +30,6 @@ class Login extends React.Component {
     };
     handleSubmit = async e => {
         e.preventDefault();
-        console.log(this.state.email);
-        console.log(this.state.password);
         const variables = {
             data: { email: this.state.email, password: this.state.password }
         };
@@ -40,6 +44,13 @@ class Login extends React.Component {
             console.log(err.message);
         }
         console.log(result);
+
+        if (result.data.login.token) {
+            document.cookie = `Authorization= ${result.data.login.token}`;
+            console.log(document.cookie);
+            this.setState({ loggedIn: true });
+        }
+        return;
     };
     onEmailChange = e => {
         this.setState({ email: e.target.value });
@@ -47,7 +58,12 @@ class Login extends React.Component {
     onPasswordChange = e => {
         this.setState({ password: e.target.value });
     };
+
     render() {
+        const { loggedIn } = this.state;
+        if (loggedIn) {
+            return <Redirect from="/" to="/home" />;
+        }
         return (
             <Fragment>
                 <Form onSubmit={this.handleSubmit} className="login-form">

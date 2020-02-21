@@ -1,6 +1,8 @@
 import React from 'react';
 import { Layout } from 'antd';
 import Login from './components/Login';
+import MyBlog from './components/MyBlog';
+import { Route, Switch } from 'react-router-dom';
 
 const { Content } = Layout;
 
@@ -10,7 +12,18 @@ class App extends React.Component {
         return (
             <Layout className="layout">
                 <Content className="content">
-                    <Login client={client} />
+                    <Switch>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => <Login client={client} />}
+                        />
+                        <Route
+                            exact
+                            path="/home"
+                            render={() => <MyBlog client={client} />}
+                        />
+                    </Switch>
                 </Content>
             </Layout>
         );
