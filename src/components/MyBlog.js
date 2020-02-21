@@ -1,5 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
+import { Card, Icon, Avatar } from 'antd';
+const { Meta } = Card;
 
 const me = gql`
     query {
@@ -45,8 +47,33 @@ class MyBlog extends React.Component {
     };
 
     render() {
-        return this.state.me ? (
-            <div>Hello, {this.state.me.name}</div>
+        const { me } = this.state;
+
+        return me ? (
+            <div>
+                <div>Hello, {me.name}</div>
+                {me.posts.map(post => {
+                    return (
+                        <div style={{ paddingTop: 10 }}>
+                            <Card
+                                cover={<img src={post.img} />}
+                                style={{
+                                    width: 300,
+                                    marginTop: 16
+                                }}
+                                hoverable
+                                key={post.id}
+                                style={{ width: 300 }}
+                            >
+                                <Meta
+                                    title={post.title}
+                                    description={post.body}
+                                />
+                            </Card>
+                        </div>
+                    );
+                })}
+            </div>
         ) : (
             <div>Loading ... </div>
         );
