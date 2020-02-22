@@ -2,6 +2,7 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { Card } from 'antd';
 import PostComment from './Comment';
+import { tryQuery } from './utils/tryQuery';
 const { Meta } = Card;
 
 const myPosts = gql`
@@ -23,37 +24,42 @@ const myPosts = gql`
     }
 `;
 
+const me = gql`
+    query {
+        me {
+            profilePicture
+            name
+        }
+    }
+`;
+
 class MyBlog extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { myPosts: undefined };
+        this.state = { myPosts: undefined, me: undefined };
     }
     componentDidMount() {
         this.me().then(result => {
-            this.setState({ myPosts: result });
+            this.setState(result);
         });
     }
 
     me = async () => {
-        let result;
-        try {
-            result = await this.props.client.query({
-                query: myPosts
-            });
-        } catch (err) {
-            alert('error.message');
-            console.log(err.message);
-        }
-        if (result.data) {
-            return result.data.myPosts;
+        let myPostsData;
+        let meData;
+        myPostsData = await tryQuery(myPosts, this.props.client);
+        meData = await tryQuery(me, this.props.client);
+
+        if (meData.data && myPostsData.data) {
+            return { myPosts: myPostsData.data.myPosts, me: meData.data.me };
         }
     };
 
     render() {
-        const { myPosts } = this.state;
+        const { myPosts, me } = this.state;
         return myPosts ? (
             <div className="my-posts">
-                <div>Hello, Judy</div>
+                <div>Hello, {me.name}</div>
                 {myPosts.map(post => {
                     return (
                         <div style={{ paddingTop: 10 }}>
