@@ -43,11 +43,8 @@ class Login extends React.Component {
             alert('Incorrect email/password');
             console.log(err.message);
         }
-        console.log(result);
-
         if (result.data.login.token) {
             document.cookie = `Authorization= ${result.data.login.token}`;
-            console.log(document.cookie);
             this.setState({ loggedIn: true });
         }
         return;

@@ -9,7 +9,6 @@ const client = new ApolloClient({
     uri: 'http://localhost:4000',
     request: operation => {
         const token = document.cookie.replace('Authorization=', '');
-        console.log(token);
         if (token) {
             operation.setContext({
                 headers: {

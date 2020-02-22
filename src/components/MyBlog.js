@@ -17,6 +17,7 @@ const myPosts = gql`
                     name
                 }
                 text
+                updatedAt
             }
         }
     }
@@ -29,7 +30,6 @@ class MyBlog extends React.Component {
     }
     componentDidMount() {
         this.me().then(result => {
-            console.log(result);
             this.setState({ myPosts: result });
         });
     }
@@ -44,7 +44,6 @@ class MyBlog extends React.Component {
             alert('error.message');
             console.log(err.message);
         }
-        console.log(result);
         if (result.data) {
             return result.data.myPosts;
         }
@@ -52,9 +51,8 @@ class MyBlog extends React.Component {
 
     render() {
         const { myPosts } = this.state;
-
         return myPosts ? (
-            <div>
+            <div className="my-posts">
                 <div>Hello, Judy</div>
                 {myPosts.map(post => {
                     return (
@@ -87,15 +85,24 @@ class MyBlog extends React.Component {
                                                     alt="Han Solo"
                                                 />
                                             }
-                                            content={<p>{comment.text}</p>}
+                                            content={<p>{comment.text} </p>}
                                             datetime={
                                                 <Tooltip
-                                                    title={moment().format(
-                                                        'YYYY-MM-DD HH:mm:ss'
-                                                    )}
+                                                    title={moment(
+                                                        comment.updatedAt
+                                                    )
+                                                        .local()
+                                                        .format(
+                                                            'MM-DD-YY hh:mm a'
+                                                        )}
                                                 >
                                                     <span>
-                                                        {moment().fromNow()}
+                                                        {moment(
+                                                            moment(
+                                                                comment.updatedAt
+                                                            ).local(),
+                                                            'YYYYMMDD'
+                                                        ).fromNow()}
                                                     </span>
                                                 </Tooltip>
                                             }

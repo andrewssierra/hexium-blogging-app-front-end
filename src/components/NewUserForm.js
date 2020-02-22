@@ -19,7 +19,6 @@ const createUser = gql`
 class NewUserForm extends React.Component {
     state = { visible: true, email: '', password: '', name: '' };
     handleOk = async e => {
-        console.log(e);
         const variables = {
             data: {
                 email: this.state.email,
@@ -37,8 +36,6 @@ class NewUserForm extends React.Component {
             alert('Unable to create user');
             console.log(err.message);
         }
-
-        console.log(result);
         this.props.updatePatent();
     };
     onEmailChange = e => {
@@ -51,7 +48,6 @@ class NewUserForm extends React.Component {
         this.setState({ name: e.target.value });
     };
     handleCancel = e => {
-        console.log(e);
         this.props.updatePatent();
     };
     render() {
