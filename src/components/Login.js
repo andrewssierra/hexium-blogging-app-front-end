@@ -35,7 +35,6 @@ class Login extends React.Component {
             data: { email: this.state.email, password: this.state.password }
         };
         let result = await tryMutation(login, this.props.client, variables);
-
         if (result) {
             document.cookie = `Authorization= ${result.data.login.token}`;
             this.setState({ loggedIn: true });

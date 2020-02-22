@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { gql } from 'apollo-boost';
 import { Card } from 'antd';
 import PostComment from './Comment';
 import { tryQuery } from './utils/tryRequest';
+import AboutMe from './AboutMe';
 const { Meta } = Card;
 
 const myPosts = gql`
@@ -59,36 +60,41 @@ class MyBlog extends React.Component {
     render() {
         const { myPosts, me } = this.state;
         return myPosts ? (
-            <div className="my-posts">
-                <div>Hello, {me.name}</div>
-                {myPosts.map(post => {
-                    return (
-                        <div style={{ paddingTop: 10 }}>
-                            <Card
-                                cover={<img src={post.image} />}
-                                style={{
-                                    width: 300,
-                                    marginTop: 16
-                                }}
-                                hoverable
-                                key={post.id}
-                                style={{ width: 300 }}
-                            >
-                                <Meta
-                                    title={post.title}
-                                    description={post.body}
-                                />
-                            </Card>
-                            {post.comments[0] &&
-                                post.comments.map(comment => {
-                                    return (
-                                        <PostComment commentDetails={comment} />
-                                    );
-                                })}
-                        </div>
-                    );
-                })}
-            </div>
+            <Fragment>
+                <AboutMe me={me} />
+                <div className="my-posts">
+                    <div>Hello, {me.name}</div>
+                    {myPosts.map(post => {
+                        return (
+                            <div style={{ paddingTop: 10 }}>
+                                <Card
+                                    cover={<img src={post.image} />}
+                                    style={{
+                                        width: 300,
+                                        marginTop: 16
+                                    }}
+                                    hoverable
+                                    key={post.id}
+                                    style={{ width: 300 }}
+                                >
+                                    <Meta
+                                        title={post.title}
+                                        description={post.body}
+                                    />
+                                </Card>
+                                {post.comments[0] &&
+                                    post.comments.map(comment => {
+                                        return (
+                                            <PostComment
+                                                commentDetails={comment}
+                                            />
+                                        );
+                                    })}
+                            </div>
+                        );
+                    })}
+                </div>
+            </Fragment>
         ) : (
             <div>Loading ... </div>
         );
