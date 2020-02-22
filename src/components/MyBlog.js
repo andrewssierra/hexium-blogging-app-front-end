@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
-import { Card, Icon, Avatar, Comment, Tooltip } from 'antd';
-import moment from 'moment';
+import { Card } from 'antd';
+import PostComment from './Comment';
 const { Meta } = Card;
 
 const myPosts = gql`
@@ -75,38 +75,7 @@ class MyBlog extends React.Component {
                             {post.comments[0] &&
                                 post.comments.map(comment => {
                                     return (
-                                        <Comment
-                                            author={
-                                                <a>{comment.author.name}</a>
-                                            }
-                                            avatar={
-                                                <Avatar
-                                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                                    alt="Han Solo"
-                                                />
-                                            }
-                                            content={<p>{comment.text} </p>}
-                                            datetime={
-                                                <Tooltip
-                                                    title={moment(
-                                                        comment.updatedAt
-                                                    )
-                                                        .local()
-                                                        .format(
-                                                            'MM-DD-YY hh:mm a'
-                                                        )}
-                                                >
-                                                    <span>
-                                                        {moment(
-                                                            moment(
-                                                                comment.updatedAt
-                                                            ).local(),
-                                                            'YYYYMMDD'
-                                                        ).fromNow()}
-                                                    </span>
-                                                </Tooltip>
-                                            }
-                                        />
+                                        <PostComment commentDetails={comment} />
                                     );
                                 })}
                         </div>
