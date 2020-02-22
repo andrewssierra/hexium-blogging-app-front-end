@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { gql } from 'apollo-boost';
 import { Redirect } from 'react-router-dom';
 import NewUserForm from './NewUserForm';
+import { tryMutation } from './utils/tryRequest';
 
 const login = gql`
     mutation($data: LogInUserInput!) {
@@ -33,17 +34,9 @@ class Login extends React.Component {
         const variables = {
             data: { email: this.state.email, password: this.state.password }
         };
-        let result;
-        try {
-            result = await this.props.client.mutate({
-                mutation: login,
-                variables
-            });
-        } catch (err) {
-            alert('Incorrect email/password');
-            console.log(err.message);
-        }
-        if (result.data.login.token) {
+        let result = await tryMutation(login, this.props.client, variables);
+
+        if (result) {
             document.cookie = `Authorization= ${result.data.login.token}`;
             this.setState({ loggedIn: true });
         }

@@ -2,7 +2,7 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { Card } from 'antd';
 import PostComment from './Comment';
-import { tryQuery } from './utils/tryQuery';
+import { tryQuery } from './utils/tryRequest';
 const { Meta } = Card;
 
 const myPosts = gql`
@@ -40,6 +40,7 @@ class MyBlog extends React.Component {
     }
     componentDidMount() {
         this.me().then(result => {
+            this.props.updateHeader(result.me.profilePicture);
             this.setState(result);
         });
     }

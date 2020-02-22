@@ -7,6 +7,15 @@ import { Route, Switch } from 'react-router-dom';
 const { Content } = Layout;
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { avatar: undefined };
+    }
+
+    updateHeader = profilePicture => {
+        this.setState({ avatar: profilePicture });
+    };
+
     render() {
         const { client } = this.props;
         return (
@@ -18,10 +27,14 @@ class App extends React.Component {
                     title="This is a blog"
                     subTitle=""
                     ghost={true}
-                    avatar={{
-                        src:
-                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
-                    }}
+                    avatar={
+                        this.state.avatar
+                            ? { src: `${this.state.avatar}` }
+                            : {
+                                  src:
+                                      'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
+                              }
+                    }
                 />
                 <Content className="content">
                     <Switch>
@@ -33,7 +46,12 @@ class App extends React.Component {
                         <Route
                             exact
                             path="/home"
-                            render={() => <MyBlog client={client} />}
+                            render={() => (
+                                <MyBlog
+                                    client={client}
+                                    updateHeader={this.updateHeader}
+                                />
+                            )}
                         />
                     </Switch>
                 </Content>
