@@ -20,7 +20,7 @@ class App extends React.Component {
                     ghost={true}
                     avatar={{
                         src:
-                            'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
+                            'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
                     }}
                 />
                 <Content className="content">
