@@ -1,18 +1,22 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
-import { Card, Icon, Avatar } from 'antd';
+import { Card, Icon, Avatar, Comment, Tooltip } from 'antd';
+import moment from 'moment';
 const { Meta } = Card;
 
-const me = gql`
+const myPosts = gql`
     query {
-        me {
-            name
-            email
-            posts {
-                title
-                body
-                published
-                id
+        myPosts {
+            title
+            body
+            image
+            published
+            id
+            comments {
+                author {
+                    name
+                }
+                text
             }
         }
     }
@@ -21,12 +25,12 @@ const me = gql`
 class MyBlog extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { me: undefined };
+        this.state = { myPosts: undefined };
     }
     componentDidMount() {
         this.me().then(result => {
             console.log(result);
-            this.setState({ me: result });
+            this.setState({ myPosts: result });
         });
     }
 
@@ -34,7 +38,7 @@ class MyBlog extends React.Component {
         let result;
         try {
             result = await this.props.client.query({
-                query: me
+                query: myPosts
             });
         } catch (err) {
             alert('error.message');
@@ -42,21 +46,21 @@ class MyBlog extends React.Component {
         }
         console.log(result);
         if (result.data) {
-            return result.data.me;
+            return result.data.myPosts;
         }
     };
 
     render() {
-        const { me } = this.state;
+        const { myPosts } = this.state;
 
-        return me ? (
+        return myPosts ? (
             <div>
-                <div>Hello, {me.name}</div>
-                {me.posts.map(post => {
+                <div>Hello, Judy</div>
+                {myPosts.map(post => {
                     return (
                         <div style={{ paddingTop: 10 }}>
                             <Card
-                                cover={<img src={post.img} />}
+                                cover={<img src={post.image} />}
                                 style={{
                                     width: 300,
                                     marginTop: 16
@@ -70,6 +74,34 @@ class MyBlog extends React.Component {
                                     description={post.body}
                                 />
                             </Card>
+                            {post.comments[0] &&
+                                post.comments.map(comment => {
+                                    return (
+                                        <Comment
+                                            author={
+                                                <a>{comment.author.name}</a>
+                                            }
+                                            avatar={
+                                                <Avatar
+                                                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                                    alt="Han Solo"
+                                                />
+                                            }
+                                            content={<p>{comment.text}</p>}
+                                            datetime={
+                                                <Tooltip
+                                                    title={moment().format(
+                                                        'YYYY-MM-DD HH:mm:ss'
+                                                    )}
+                                                >
+                                                    <span>
+                                                        {moment().fromNow()}
+                                                    </span>
+                                                </Tooltip>
+                                            }
+                                        />
+                                    );
+                                })}
                         </div>
                     );
                 })}
