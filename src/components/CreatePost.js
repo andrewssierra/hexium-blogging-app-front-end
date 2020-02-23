@@ -4,14 +4,14 @@ const { TextArea } = Input;
 
 const CreatePost = () => {
     return (
-        <div style={{ width: '350px' }}>
+        <div>
             <p>Create a new post</p>
             <Form.Item style={{marginBottom: '2px'}}>
-            <TextArea style={{ width: '350px' }} rows={4} />
+            <TextArea  rows={4} />
             </Form.Item>
-            <Form.Item  style={{marginBottom: '0px'}}>
+            <Form.Item  style={{marginBottom: '2px'}}>
             <Button htmlType="submit" type="primary" style={{float: 'right'}}>
-                submit
+                Submit
             </Button>
             </Form.Item>
         </div>

@@ -22,9 +22,9 @@ class AboutMe extends React.Component {
 
     render() {
         return (
-            <div style={{ height: '350px', overflow: 'hidden' }}>
+            <div className='cover-container'>
                 <img
-                    style={{ margin: '-500px 0px 0px 0px' }}
+                    className='cover'
                     src={this.state.cover}
                 />
             </div>

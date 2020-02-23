@@ -74,21 +74,19 @@ class MyBlog extends React.Component {
                     <Col span={9}>
                         <AboutMe me={me} />
                     </Col>
-                    <Col span={15}>
+                    <Col span={15} className="my-posts">
                         <Title level={4}>Hello, {me.name}</Title>
                         <CreatePost/>
                         {myPosts.map(post => {
                             return (
-                                <div style={{ paddingTop: 10 }}>
+                                <div className="my-posts" >
                                     <Card
                                         cover={<img src={post.image} />}
                                         style={{
-                                            width: 350,
                                             marginBottom: 16
                                         }}
                                         hoverable
                                         key={post.id}
-                                        style={{ width: 350 }}
                                     >
                                         <Meta
                                             title={post.title}

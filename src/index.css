@@ -27,6 +27,19 @@
 }
 
 .my-posts {
-    margin: 100px auto;
     max-width: 350px;
+    padding-top: 10px;
+}
+
+.cover {
+    margin: -500px 0px 0px 0px
+}
+
+.cover-container {
+    height: 350px;
+    overflow: hidden;
+}
+
+.about-me {
+    margin: -95px 100px;
 }

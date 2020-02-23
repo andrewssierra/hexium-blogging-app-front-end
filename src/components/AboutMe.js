@@ -13,7 +13,7 @@ class AboutMe extends React.Component {
 
     render() {
         return (
-            <div style={{ margin: '-95px 100px' }}>
+            <div className='about-me'>
                 <Avatar
                     size={200}
                     src={this.state.profilePicture}
