@@ -5,8 +5,10 @@ import PostComment from './Comment';
 import { tryQuery } from './utils/tryRequest';
 import AboutMe from './AboutMe';
 import Cover from './Cover';
-import { Row, Col } from 'antd';
+import CreatePost from './CreatePost';
+import { Row, Col, Typography  } from 'antd';
 const { Meta } = Card;
+const { Title } = Typography;
 
 const myPosts = gql`
     query {
@@ -73,19 +75,20 @@ class MyBlog extends React.Component {
                         <AboutMe me={me} />
                     </Col>
                     <Col span={15}>
-                        <div>Hello, {me.name}</div>
+                        <Title level={4}>Hello, {me.name}</Title>
+                        <CreatePost/>
                         {myPosts.map(post => {
                             return (
                                 <div style={{ paddingTop: 10 }}>
                                     <Card
                                         cover={<img src={post.image} />}
                                         style={{
-                                            width: 300,
-                                            marginTop: 16
+                                            width: 350,
+                                            marginBottom: 16
                                         }}
                                         hoverable
                                         key={post.id}
-                                        style={{ width: 300 }}
+                                        style={{ width: 350 }}
                                     >
                                         <Meta
                                             title={post.title}
