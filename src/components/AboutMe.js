@@ -1,24 +1,29 @@
 import React from 'react';
-import { Card } from 'antd';
-const { Meta } = Card;
+import { Avatar } from 'antd';
 
-const AboutMe = props => {
-    return (
-        <div>
-            <Card
-                cover={<img src={props.me.profilePicture} />}
-                style={{
-                    width: 300,
-                    marginTop: 16
-                }}
-                hoverable
-                style={{ width: 300 }}
-            >
-                <Meta title="About Me" description={''} />
-            </Card>
-            <div />
-        </div>
-    );
+class AboutMe extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {profilePicture: undefined}
+    }
+
+    componentDidMount = async ()=> {
+        this.setState({profilePicture: this.props.me.profilePicture })
+    }
+
+    render(){
+        return (
+            <div style={{ margin: '-86px 100px'}}>
+                <Avatar
+                    size={200}
+                   
+                    src={this.state.profilePicture}
+                    alt="Profile"
+                />
+            </div>
+        );
+    }
 };
 
 export default AboutMe;

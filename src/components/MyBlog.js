@@ -4,6 +4,8 @@ import { Card } from 'antd';
 import PostComment from './Comment';
 import { tryQuery } from './utils/tryRequest';
 import AboutMe from './AboutMe';
+import Cover from './Cover';
+import { Row, Col } from 'antd';
 const { Meta } = Card;
 
 const myPosts = gql`
@@ -61,39 +63,48 @@ class MyBlog extends React.Component {
         const { myPosts, me } = this.state;
         return myPosts ? (
             <Fragment>
-                <AboutMe me={me} />
-                <div className="my-posts">
-                    <div>Hello, {me.name}</div>
-                    {myPosts.map(post => {
-                        return (
-                            <div style={{ paddingTop: 10 }}>
-                                <Card
-                                    cover={<img src={post.image} />}
-                                    style={{
-                                        width: 300,
-                                        marginTop: 16
-                                    }}
-                                    hoverable
-                                    key={post.id}
-                                    style={{ width: 300 }}
-                                >
-                                    <Meta
-                                        title={post.title}
-                                        description={post.body}
-                                    />
-                                </Card>
-                                {post.comments[0] &&
-                                    post.comments.map(comment => {
-                                        return (
-                                            <PostComment
-                                                commentDetails={comment}
-                                            />
-                                        );
-                                    })}
-                            </div>
-                        );
-                    })}
-                </div>
+                <Row type="flex">
+                    <Col span={24}>
+                        <Cover />
+                    </Col>
+                </Row>
+                <Row type="flex">
+                    <Col span={9}>
+                        <AboutMe me={me} />
+                    </Col>
+                    <Col span={15}>
+                        <div>Hello, {me.name}</div>
+                        {myPosts.map(post => {
+                            return (
+                                <div style={{ paddingTop: 10 }}>
+                                    <Card
+                                        cover={<img src={post.image} />}
+                                        style={{
+                                            width: 300,
+                                            marginTop: 16
+                                        }}
+                                        hoverable
+                                        key={post.id}
+                                        style={{ width: 300 }}
+                                    >
+                                        <Meta
+                                            title={post.title}
+                                            description={post.body}
+                                        />
+                                    </Card>
+                                    {post.comments[0] &&
+                                        post.comments.map(comment => {
+                                            return (
+                                                <PostComment
+                                                    commentDetails={comment}
+                                                />
+                                            );
+                                        })}
+                                </div>
+                            );
+                        })}
+                    </Col>
+                </Row>
             </Fragment>
         ) : (
             <div>Loading ... </div>
