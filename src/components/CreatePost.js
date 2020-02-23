@@ -6,7 +6,7 @@ const CreatePost = () => {
     return (
         <div>
             <p>Create a new post</p>
-            <Form.Item style={{marginBottom: '2px'}}>
+            <Form.Item style={{marginBottom: '6px'}}>
             <TextArea  rows={4} />
             </Form.Item>
             <Form.Item  style={{marginBottom: '2px'}}>

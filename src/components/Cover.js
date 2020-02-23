@@ -26,6 +26,7 @@ class AboutMe extends React.Component {
                 <img
                     className='cover'
                     src={this.state.cover}
+                    alt='page cover'
                 />
             </div>
         );

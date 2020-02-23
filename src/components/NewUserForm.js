@@ -26,9 +26,8 @@ class NewUserForm extends React.Component {
                 name: this.state.name
             }
         };
-        let result;
         try {
-            result = await this.props.client.mutate({
+            await this.props.client.mutate({
                 mutation: createUser,
                 variables
             });

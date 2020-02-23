@@ -16,7 +16,7 @@ class AboutMe extends React.Component {
             <div className='about-me'>
                 <Avatar
                     size={200}
-                    src={this.state.profilePicture}
+                    src={this.state.profilePicture || 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}
                     alt="Profile"
                 />
                 <br />

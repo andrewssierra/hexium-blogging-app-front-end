@@ -22,6 +22,7 @@ const myPosts = gql`
                 author {
                     name
                 }
+                id
                 text
                 updatedAt
             }
@@ -79,9 +80,9 @@ class MyBlog extends React.Component {
                         <CreatePost/>
                         {myPosts.map(post => {
                             return (
-                                <div className="my-posts" >
+                                <div className="my-posts" key={post.id}>
                                     <Card
-                                        cover={<img src={post.image} />}
+                                        cover={<img src={post.image} alt='post cover'/>}
                                         style={{
                                             marginBottom: 16
                                         }}
@@ -97,6 +98,7 @@ class MyBlog extends React.Component {
                                         post.comments.map(comment => {
                                             return (
                                                 <PostComment
+                                                    key={comment.id}
                                                     commentDetails={comment}
                                                 />
                                             );
