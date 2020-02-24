@@ -6,7 +6,7 @@ import { tryQuery } from './utils/tryRequest';
 import AboutMe from './AboutMe';
 import Cover from './Cover';
 import CreatePost from './CreatePost';
-import { Row, Col, Typography  } from 'antd';
+import { Row, Col, Typography, Icon } from 'antd';
 const { Meta } = Card;
 const { Title } = Typography;
 
@@ -62,10 +62,10 @@ class MyBlog extends React.Component {
         }
     };
 
-    updateParent = (newPostData) => {
+    updateParent = newPostData => {
         const newPost = newPostData.data.createPost;
-        this.setState({myPosts : [newPost, ...this.state.myPosts ]});
-    }
+        this.setState({ myPosts: [newPost, ...this.state.myPosts] });
+    };
 
     render() {
         const { myPosts, me } = this.state;
@@ -82,17 +82,29 @@ class MyBlog extends React.Component {
                     </Col>
                     <Col span={15} className="my-posts">
                         <Title level={4}>Hello, {me.name}</Title>
-                        <CreatePost client={this.props.client} updateParent={this.updateParent}/>
+                        <CreatePost
+                            client={this.props.client}
+                            updateParent={this.updateParent}
+                        />
                         {myPosts.map(post => {
                             return (
                                 <div className="my-posts" key={post.id}>
                                     <Card
-                                        cover={<img src={post.image} alt='post cover'/>}
+                                        cover={
+                                            <img
+                                                src={post.image}
+                                                alt="post cover"
+                                            />
+                                        }
                                         style={{
                                             marginBottom: 16
                                         }}
                                         hoverable
                                         key={post.id}
+                                        actions={[
+                                            <Icon type="edit" key="edit" />,
+                                            <Icon type="delete" key="delete" />
+                                        ]}
                                     >
                                         <Meta
                                             title={post.title}
