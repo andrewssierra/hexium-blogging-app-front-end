@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
-import { gql } from 'apollo-boost';
-import { Card } from 'antd';
-import PostComment from './Comment';
-import { tryQuery } from './utils/tryRequest';
 import AboutMe from './AboutMe';
 import Cover from './Cover';
+import MyPosts from './MyPosts'
+import { gql } from 'apollo-boost';
+import { tryQuery } from './utils/tryRequest';
 import CreatePost from './CreatePost';
-import { Row, Col, Typography, Icon } from 'antd';
-const { Meta } = Card;
+import { Row, Col, Typography } from 'antd';
 const { Title } = Typography;
+
 
 const myPosts = gql`
     query {
@@ -86,43 +85,7 @@ class MyBlog extends React.Component {
                             client={this.props.client}
                             updateParent={this.updateParent}
                         />
-                        {myPosts.map(post => {
-                            return (
-                                <div className="my-posts" key={post.id}>
-                                    <Card
-                                        cover={
-                                            <img
-                                                src={post.image}
-                                                alt="post cover"
-                                            />
-                                        }
-                                        style={{
-                                            marginBottom: 16
-                                        }}
-                                        hoverable
-                                        key={post.id}
-                                        actions={[
-                                            <Icon type="edit" key="edit" />,
-                                            <Icon type="delete" key="delete" />
-                                        ]}
-                                    >
-                                        <Meta
-                                            title={post.title}
-                                            description={post.body}
-                                        />
-                                    </Card>
-                                    {post.comments[0] &&
-                                        post.comments.map(comment => {
-                                            return (
-                                                <PostComment
-                                                    key={comment.id}
-                                                    commentDetails={comment}
-                                                />
-                                            );
-                                        })}
-                                </div>
-                            );
-                        })}
+                        <MyPosts posts={myPosts}/>
                     </Col>
                 </Row>
             </Fragment>
