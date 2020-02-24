@@ -59,6 +59,7 @@ class Login extends React.Component {
                     <h1>Hello, </h1>
                     <Form.Item>
                         <Input
+                            required
                             prefix={<Icon className="email-icon" type="user" />}
                             placeholder="Email"
                             onChange={this.onEmailChange}
@@ -67,6 +68,7 @@ class Login extends React.Component {
                     </Form.Item>
                     <Form.Item>
                         <Input
+                            required
                             prefix={
                                 <Icon
                                     type="lock"
