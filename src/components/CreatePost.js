@@ -7,10 +7,10 @@ const CreatePost = () => {
         <div>
             <p>Create a new post</p>
             <Form.Item>
-                <Input placeholder="Title" />
+                <Input required placeholder="Title" />
             </Form.Item>
             <Form.Item style={{ marginBottom: '6px' }}>
-                <TextArea  placeholder="Post body ..." rows={4} />
+                <TextArea  required placeholder="Post body ..." rows={4} />
             </Form.Item>
             <Form.Item>
                 <Input
