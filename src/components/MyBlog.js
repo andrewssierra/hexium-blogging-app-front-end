@@ -85,7 +85,7 @@ class MyBlog extends React.Component {
                             client={this.props.client}
                             updateParent={this.updateParent}
                         />
-                        <MyPosts posts={myPosts}/>
+                        <MyPosts client={this.props.client} posts={myPosts}/>
                     </Col>
                 </Row>
             </Fragment>
