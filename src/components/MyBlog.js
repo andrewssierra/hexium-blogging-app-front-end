@@ -77,7 +77,7 @@ class MyBlog extends React.Component {
                     </Col>
                     <Col span={15} className="my-posts">
                         <Title level={4}>Hello, {me.name}</Title>
-                        <CreatePost/>
+                        <CreatePost client={this.props.client}/>
                         {myPosts.map(post => {
                             return (
                                 <div className="my-posts" key={post.id}>
