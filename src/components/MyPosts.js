@@ -25,6 +25,7 @@ class MyPosts extends React.Component {
             id: postId
         }
         let result = await tryMutation(deletePost, this.props.client, variables);
+        this.props.updateParent(result);
     }
 
     render() {

@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
 import AboutMe from './AboutMe';
 import Cover from './Cover';
-import MyPosts from './MyPosts'
+import MyPosts from './MyPosts';
 import { gql } from 'apollo-boost';
 import { tryQuery } from './utils/tryRequest';
 import CreatePost from './CreatePost';
 import { Row, Col, Typography } from 'antd';
 const { Title } = Typography;
-
 
 const myPosts = gql`
     query {
@@ -66,6 +65,16 @@ class MyBlog extends React.Component {
         this.setState({ myPosts: [newPost, ...this.state.myPosts] });
     };
 
+    deletePost = deletePostData => {
+        const { deletePost } = deletePostData.data;
+        console.log(deletePost);
+        console.log(this.state.myPosts.filter(post => post.id !== deletePost.id));
+        const myPosts = this.state.myPosts.filter(
+            post => post.id !== deletePost.id
+        );
+        this.setState({ myPosts });
+    };
+
     render() {
         const { myPosts, me } = this.state;
         return myPosts ? (
@@ -85,7 +94,11 @@ class MyBlog extends React.Component {
                             client={this.props.client}
                             updateParent={this.updateParent}
                         />
-                        <MyPosts client={this.props.client} posts={myPosts}/>
+                        <MyPosts
+                            client={this.props.client}
+                            posts={myPosts}
+                            updateParent={this.deletePost}
+                        />
                     </Col>
                 </Row>
             </Fragment>
