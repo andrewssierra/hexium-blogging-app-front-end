@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 const myPosts = gql`
     query {
-        myPosts {
+        myPosts(orderBy: createdAt_DESC) {
             title
             body
             image
@@ -42,7 +42,7 @@ const me = gql`
 class MyBlog extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { myPosts: undefined, me: undefined };
+        this.state = { myPosts: undefined, me: undefined, test: undefined };
     }
     componentDidMount() {
         this.me().then(result => {
@@ -62,6 +62,11 @@ class MyBlog extends React.Component {
         }
     };
 
+    updateParent = (newPostData) => {
+        const newPost = newPostData.data.createPost;
+        this.setState({myPosts : [newPost, ...this.state.myPosts ]});
+    }
+
     render() {
         const { myPosts, me } = this.state;
         return myPosts ? (
@@ -77,7 +82,7 @@ class MyBlog extends React.Component {
                     </Col>
                     <Col span={15} className="my-posts">
                         <Title level={4}>Hello, {me.name}</Title>
-                        <CreatePost client={this.props.client}/>
+                        <CreatePost client={this.props.client} updateParent={this.updateParent}/>
                         {myPosts.map(post => {
                             return (
                                 <div className="my-posts" key={post.id}>

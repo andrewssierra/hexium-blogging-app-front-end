@@ -11,15 +11,24 @@ const createPost = gql`
             body
             image
             published
+            id
+            comments {
+                text
+                id
+            }
         }
     }
 `;
 
+const initialState = {
+    title: undefined, body: undefined, cover: undefined
+} 
 
 class CreatePost extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = { title: undefined, body: undefined, cover: undefined };
+        this.state = initialState;
     }
 
     handleSubmit = async e => {
@@ -36,6 +45,8 @@ class CreatePost extends React.Component {
         let result = await tryMutation(createPost, this.props.client, variables);
         if (result) {
             console.log(result)
+            this.props.updateParent(result);
+            this.setState(initialState)
         }
         return;
     };
