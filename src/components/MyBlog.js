@@ -75,6 +75,14 @@ class MyBlog extends React.Component {
         this.setState({ myPosts });
     };
 
+    updatePost = updatePostData => {
+        const {updatePost} = updatePostData.data;
+        const {myPosts} = this.state;
+        let oldIndex = myPosts.findIndex(post => post.id === updatePost.id)
+        myPosts.splice(oldIndex, 1, updatePost);
+        this.setState({myPosts})
+    }
+
     render() {
         const { myPosts, me } = this.state;
         return myPosts ? (
@@ -97,7 +105,8 @@ class MyBlog extends React.Component {
                         <MyPosts
                             client={this.props.client}
                             posts={myPosts}
-                            updateParent={this.deletePost}
+                            updateParentDeletePost={this.deletePost}
+                            updateParentUpdatePost={this.updatePost}
                         />
                     </Col>
                 </Row>

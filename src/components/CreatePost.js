@@ -1,8 +1,7 @@
 import React from 'react';
 import {tryMutation} from './utils/tryRequest';
-import { Input, Button, Form, Icon } from 'antd';
 import { gql } from 'apollo-boost';
-const { TextArea } = Input;
+import PostForm from './PostForm';
 
 const createPost = gql`
     mutation($data: CreatePostInput!) {
@@ -20,20 +19,9 @@ const createPost = gql`
     }
 `;
 
-const initialState = {
-    title: undefined, body: undefined, cover: undefined
-} 
-
 class CreatePost extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = initialState;
-    }
-
-    handleSubmit = async e => {
-        const {title, body, cover} = this.state;
-        e.preventDefault();
+    handleSubmit = async (data) => {
+        const {title, body, cover} = data;
         const variables = {
             data: {
                 title,
@@ -46,66 +34,15 @@ class CreatePost extends React.Component {
         if (result) {
             console.log(result)
             this.props.updateParent(result);
-            this.setState(initialState)
         }
         return;
     };
 
-    onTitleChange = e => {
-        this.setState({ title: e.target.value });
-    };
-    onBodyChange = e => {
-        this.setState({ body: e.target.value });
-    };
-    onCoverChange = e => {
-        this.setState({ cover: e.target.value });
-    };
     render() {
-        const {title, body, cover} = this.state;
         return (
             <div>
                 <p>Create a new post</p>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Item>
-                        <Input
-                            required
-                            placeholder="Title"
-                            value={title}
-                            onChange={this.onTitleChange}
-                        />
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '6px' }}>
-                        <TextArea
-                            required
-                            placeholder="Post body ..."
-                            value={body}
-                            onChange={this.onBodyChange}
-                            rows={4}
-                        />
-                    </Form.Item>
-                    <Form.Item>
-                        <Input
-                            placeholder="Post cover image"
-                            suffix={
-                                <Icon
-                                    type="paper-clip"
-                                    style={{ marginRight: '5px' }}
-                                />
-                            }
-                            value={cover}
-                            onChange={this.onCoverChange}
-                        ></Input>
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: '2px' }}>
-                        <Button
-                            htmlType="submit"
-                            type="primary"
-                            style={{ float: 'right' }}
-                        >
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
+                <PostForm handleSubmit={this.handleSubmit}/>
             </div>
         );
     }
