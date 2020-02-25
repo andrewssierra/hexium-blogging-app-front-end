@@ -1,11 +1,10 @@
 import React from 'react';
 import PostComment from './Comment';
 import PostForm from './PostForm';
-import { Card, Icon } from 'antd';
+import { Card, Icon, Modal } from 'antd';
 import { tryMutation } from './utils/tryRequest';
 import { gql } from 'apollo-boost';
 const { Meta } = Card;
-
 
 const deletePost = gql`
     mutation($id: ID!) {
@@ -22,6 +21,7 @@ const updatePost = gql`
             title
             body
             published
+            image
             comments {
                 text
                 author {
@@ -33,29 +33,31 @@ const updatePost = gql`
     }
 `;
 
-
-
 class MyPosts extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {selected: undefined, selectedPost: {}};
+        this.state = { selected: undefined, selectedPost: {} };
     }
 
     handleDeletePost = postId => async e => {
         const variables = {
             id: postId
-        }
-        let result = await tryMutation(deletePost, this.props.client, variables);
+        };
+        let result = await tryMutation(
+            deletePost,
+            this.props.client,
+            variables
+        );
         this.props.updateParentDeletePost(result);
-    }
+    };
 
-    handlePostEdit = postId => async (e) => {
-        const post = this.props.posts.filter(post => post.id === postId)
-        this.setState({selected: true, selectedPost: post[0]}); 
-    }
+    handlePostEdit = postId => async e => {
+        const post = this.props.posts.filter(post => post.id === postId);
+        this.setState({ selected: true, selectedPost: post[0] });
+    };
 
-    handleSubmit = async (data) => {
-        const {title, body, image, id} = data;
+    handleSubmit = async data => {
+        const { title, body, image, id } = data;
         const variables = {
             id,
             data: {
@@ -65,18 +67,26 @@ class MyPosts extends React.Component {
                 published: true
             }
         };
-        let result = await tryMutation(updatePost, this.props.client, variables);
+        let result = await tryMutation(
+            updatePost,
+            this.props.client,
+            variables
+        );
         if (result) {
-            console.log(result)
+            console.log(result);
             this.props.updateParentUpdatePost(result);
         }
+        this.setState({selected: undefined})
         return;
-    }
+    };
 
+    handleCancel = () => {
+        this.setState({ selected: null });
+    };
 
     render() {
-        const {posts} = this.props;
-        return(posts.map(post => {
+        const { posts } = this.props;
+        const postList = posts.map(post => {
             return (
                 <div className="my-posts" key={post.id}>
                     <Card
@@ -87,8 +97,18 @@ class MyPosts extends React.Component {
                         hoverable
                         key={post.id}
                         actions={[
-                            <Icon type="edit" key="edit" onClick={this.handlePostEdit(post.id)} value={post.id}/>,
-                            <Icon type="delete" key="delete" onClick={this.handleDeletePost(post.id)} value={post.id} />
+                            <Icon
+                                type="edit"
+                                key="edit"
+                                onClick={this.handlePostEdit(post.id)}
+                                value={post.id}
+                            />,
+                            <Icon
+                                type="delete"
+                                key="delete"
+                                onClick={this.handleDeletePost(post.id)}
+                                value={post.id}
+                            />
                         ]}
                     >
                         <Meta title={post.title} description={post.body} />
@@ -102,16 +122,27 @@ class MyPosts extends React.Component {
                                 />
                             );
                         })}
-                        {this.state.selected && (
-                            <PostForm 
-                                handleSubmit={this.handleSubmit}
-                                selectedPost={this.state.selectedPost}
-                            />
-                        )}
                 </div>
             );
-        })
-        )
+        });
+        return (
+            <div>
+                {postList}
+                {this.state.selected && (
+                    <Modal
+                        title="Edit post"
+                        onCancel={this.handleCancel}
+                        visible={this.state.selected}
+                        footer={null}
+                    >
+                        <PostForm
+                            handleSubmit={this.handleSubmit}
+                            selectedPost={this.state.selectedPost}
+                        />
+                    </Modal>
+                )}
+            </div>
+        );
     }
 }
 
