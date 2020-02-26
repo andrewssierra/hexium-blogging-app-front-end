@@ -83,6 +83,13 @@ class MyBlog extends React.Component {
         this.setState({myPosts})
     }
 
+    addComment = addCommentData => {
+        const {createComment} = addCommentData.data;
+        const {myPosts} = this.state;
+        let commentPost = myPosts.findIndex(post => post.id === createComment.post.id)
+        myPosts[commentPost].comments.push(addCommentData)
+    }
+
     render() {
         const { myPosts, me } = this.state;
         return myPosts ? (
@@ -107,6 +114,7 @@ class MyBlog extends React.Component {
                             posts={myPosts}
                             updateParentDeletePost={this.deletePost}
                             updateParentUpdatePost={this.updatePost}
+                            updateParentAddComment={this.addComment}
                         />
                     </Col>
                 </Row>
