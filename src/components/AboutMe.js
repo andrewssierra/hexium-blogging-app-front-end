@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Descriptions, Divider} from 'antd';
+import { Avatar, Descriptions, Divider } from 'antd';
 
 class AboutMe extends React.Component {
     constructor(props) {
@@ -13,10 +13,13 @@ class AboutMe extends React.Component {
 
     render() {
         return (
-            <div className='about-me'>
+            <div className="about-me">
                 <Avatar
                     size={200}
-                    src={this.state.profilePicture || 'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'}
+                    src={
+                        this.state.profilePicture ||
+                        'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
+                    }
                     alt="Profile"
                 />
                 <br />

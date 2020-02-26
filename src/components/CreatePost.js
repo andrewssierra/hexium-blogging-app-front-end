@@ -1,5 +1,5 @@
 import React from 'react';
-import {tryMutation} from './utils/tryRequest';
+import { tryMutation } from './utils/tryRequest';
 import { gql } from 'apollo-boost';
 import PostForm from './PostForm';
 
@@ -20,8 +20,8 @@ const createPost = gql`
 `;
 
 class CreatePost extends React.Component {
-    handleSubmit = async (data) => {
-        const {title, body, cover} = data;
+    handleSubmit = async data => {
+        const { title, body, cover } = data;
         const variables = {
             data: {
                 title,
@@ -30,9 +30,13 @@ class CreatePost extends React.Component {
                 published: true
             }
         };
-        let result = await tryMutation(createPost, this.props.client, variables);
+        let result = await tryMutation(
+            createPost,
+            this.props.client,
+            variables
+        );
         if (result) {
-            console.log(result)
+            console.log(result);
             this.props.updateParent(result);
         }
         return;
@@ -42,7 +46,7 @@ class CreatePost extends React.Component {
         return (
             <div>
                 <p>Create a new post</p>
-                <PostForm handleSubmit={this.handleSubmit}/>
+                <PostForm handleSubmit={this.handleSubmit} />
             </div>
         );
     }

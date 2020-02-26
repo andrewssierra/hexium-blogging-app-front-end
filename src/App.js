@@ -27,7 +27,9 @@ class App extends React.Component {
                 <PageHeader
                     style={{
                         border: '1px solid rgb(235, 237, 240)',
-                        position: 'fixed', zIndex: 1, width: '100%'
+                        position: 'fixed',
+                        zIndex: 1,
+                        width: '100%'
                     }}
                     title="This is a blog"
                     subTitle=""

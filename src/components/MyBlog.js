@@ -68,7 +68,9 @@ class MyBlog extends React.Component {
     deletePost = deletePostData => {
         const { deletePost } = deletePostData.data;
         console.log(deletePost);
-        console.log(this.state.myPosts.filter(post => post.id !== deletePost.id));
+        console.log(
+            this.state.myPosts.filter(post => post.id !== deletePost.id)
+        );
         const myPosts = this.state.myPosts.filter(
             post => post.id !== deletePost.id
         );
@@ -76,20 +78,22 @@ class MyBlog extends React.Component {
     };
 
     updatePost = updatePostData => {
-        const {updatePost} = updatePostData.data;
-        const {myPosts} = this.state;
-        let oldIndex = myPosts.findIndex(post => post.id === updatePost.id)
+        const { updatePost } = updatePostData.data;
+        const { myPosts } = this.state;
+        let oldIndex = myPosts.findIndex(post => post.id === updatePost.id);
         myPosts.splice(oldIndex, 1, updatePost);
-        this.setState({myPosts})
-    }
+        this.setState({ myPosts });
+    };
 
     addComment = addCommentData => {
-        const {createComment} = addCommentData.data;
-        const {myPosts} = this.state;
-        let commentPost = myPosts.findIndex(post => post.id === createComment.post.id)
-        myPosts[commentPost].comments.push(createComment)
-        this.setState({myPosts})
-    }
+        const { createComment } = addCommentData.data;
+        const { myPosts } = this.state;
+        let commentPost = myPosts.findIndex(
+            post => post.id === createComment.post.id
+        );
+        myPosts[commentPost].comments.push(createComment);
+        this.setState({ myPosts });
+    };
 
     render() {
         const { myPosts, me } = this.state;

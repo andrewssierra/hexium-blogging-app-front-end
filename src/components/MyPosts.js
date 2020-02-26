@@ -1,7 +1,7 @@
 import React from 'react';
 import PostComment from './Comment';
 import PostForm from './PostForm';
-import NewComment from './NewComment'
+import NewComment from './NewComment';
 import { Card, Icon, Modal } from 'antd';
 import { tryMutation } from './utils/tryRequest';
 import { gql } from 'apollo-boost';
@@ -77,7 +77,7 @@ class MyPosts extends React.Component {
             console.log(result);
             this.props.updateParentUpdatePost(result);
         }
-        this.setState({selected: undefined})
+        this.setState({ selected: undefined });
         return;
     };
 
@@ -123,7 +123,11 @@ class MyPosts extends React.Component {
                                 />
                             );
                         })}
-                    <NewComment client={this.props.client} id={post.id} updateParent={this.props.updateParentAddComment}/>
+                    <NewComment
+                        client={this.props.client}
+                        id={post.id}
+                        updateParent={this.props.updateParentAddComment}
+                    />
                 </div>
             );
         });

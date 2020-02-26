@@ -2,10 +2,12 @@ import React from 'react';
 import { Input, Button, Form, Icon } from 'antd';
 const { TextArea } = Input;
 
-
 const initialState = {
-    title: undefined, body: undefined, image: undefined, id: undefined
-} 
+    title: undefined,
+    body: undefined,
+    image: undefined,
+    id: undefined
+};
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -14,14 +16,14 @@ class PostForm extends React.Component {
     }
 
     componentDidMount() {
-        this.setState(this.props.selectedPost)
+        this.setState(this.props.selectedPost);
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async e => {
         e.preventDefault();
         await this.props.handleSubmit(this.state);
-        this.setState({initialState})
-    }
+        this.setState({ initialState });
+    };
 
     onTitleChange = e => {
         this.setState({ title: e.target.value });
@@ -33,7 +35,7 @@ class PostForm extends React.Component {
         this.setState({ image: e.target.value });
     };
     render() {
-        const {title, body, image} = this.state;
+        const { title, body, image } = this.state;
         return (
             <div>
                 <Form onSubmit={this.handleSubmit}>

@@ -22,11 +22,11 @@ class AboutMe extends React.Component {
 
     render() {
         return (
-            <div className='cover-container'>
+            <div className="cover-container">
                 <img
-                    className='cover'
+                    className="cover"
                     src={this.state.cover}
-                    alt='page cover'
+                    alt="page cover"
                 />
             </div>
         );
