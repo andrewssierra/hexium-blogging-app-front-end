@@ -87,7 +87,8 @@ class MyBlog extends React.Component {
         const {createComment} = addCommentData.data;
         const {myPosts} = this.state;
         let commentPost = myPosts.findIndex(post => post.id === createComment.post.id)
-        myPosts[commentPost].comments.push(addCommentData)
+        myPosts[commentPost].comments.push(createComment)
+        this.setState({myPosts})
     }
 
     render() {
