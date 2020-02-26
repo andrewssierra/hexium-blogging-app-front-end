@@ -19,10 +19,12 @@ const createComment = gql`
     }
 `;
 
+const initialState = {comment: undefined}
+
 class NewComment extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { comment: undefined };
+        this.state = {initialState};
     }
 
     onCommentChange = e => {
@@ -42,7 +44,8 @@ class NewComment extends React.Component {
             this.props.client,
             variables
         );
-        this.props.updateParent(data);
+        await this.props.updateParent(data);
+        this.setState(initialState)
     };
 
     render() {
